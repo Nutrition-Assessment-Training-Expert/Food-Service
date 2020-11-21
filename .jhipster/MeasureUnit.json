@@ -1,0 +1,31 @@
+{
+  "name": "MeasureUnit",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "16"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "foodPortion",
+      "otherEntityRelationshipName": "measureUnit",
+      "relationshipName": "foodPortion"
+    }
+  ],
+  "changelogDate": "20201121200323",
+  "entityTableName": "measure_unit",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": ["foodservice"],
+  "microserviceName": "foodservice"
+}

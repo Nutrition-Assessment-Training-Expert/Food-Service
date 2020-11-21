@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+    <property name="now" value="now()" dbms="mysql, mariadb"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql, mariadb"/>
+    <property name="clobType" value="clob" dbms="h2"/>
+    <property name="clobType" value="clob" dbms="mysql, oracle, mssql, mariadb, postgresql"/>
+    <property name="uuidType" value="varchar(36)" dbms="h2, mysql, mariadb"/>
+
+    <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201121195823_added_entity_Food.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201121195923_added_entity_BrandedFood.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201121200023_added_entity_FoodCategory.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201121200123_added_entity_FoodPortion.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201121200223_added_entity_FoodNutrient.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201121200323_added_entity_MeasureUnit.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201121200423_added_entity_Nutrient.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20201121195823_added_entity_constraints_Food.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201121195923_added_entity_constraints_BrandedFood.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201121200123_added_entity_constraints_FoodPortion.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201121200223_added_entity_constraints_FoodNutrient.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+    <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
+</databaseChangeLog>

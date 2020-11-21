@@ -1,0 +1,53 @@
+{
+  "name": "FoodPortion",
+  "fields": [
+    {
+      "fieldName": "amount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "portionDescription",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "modifier",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "gramWeight",
+      "fieldType": "Double"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "food",
+      "otherEntityRelationshipName": "foodPoriton",
+      "relationshipName": "food",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "measureUnit",
+      "otherEntityRelationshipName": "foodPortion",
+      "relationshipName": "measureUnit",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20201121200123",
+  "entityTableName": "food_portion",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": ["foodservice"],
+  "microserviceName": "foodservice"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "FoodNutrient",
+  "fields": [
+    {
+      "fieldName": "amount",
+      "fieldType": "Double"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "nutrient",
+      "otherEntityRelationshipName": "foodNutrient",
+      "relationshipName": "nutrient",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "food",
+      "otherEntityRelationshipName": "foodNutrient",
+      "relationshipName": "food",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20201121200223",
+  "entityTableName": "food_nutrient",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": ["foodservice"],
+  "microserviceName": "foodservice"
+}

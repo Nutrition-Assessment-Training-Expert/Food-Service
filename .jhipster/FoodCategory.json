@@ -1,0 +1,31 @@
+{
+  "name": "FoodCategory",
+  "fields": [
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "35"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "food",
+      "otherEntityRelationshipName": "foodCategory",
+      "relationshipName": "food"
+    }
+  ],
+  "changelogDate": "20201121200023",
+  "entityTableName": "food_category",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": ["foodservice"],
+  "microserviceName": "foodservice"
+}

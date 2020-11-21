@@ -1,0 +1,51 @@
+{
+  "name": "Food",
+  "fields": [
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "foodPortion",
+      "otherEntityRelationshipName": "food",
+      "relationshipName": "foodPoriton"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "foodNutrient",
+      "otherEntityRelationshipName": "food",
+      "relationshipName": "foodNutrient"
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "brandedFood",
+      "otherEntityRelationshipName": "food",
+      "relationshipName": "brandedFood",
+      "ownerSide": false
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "foodCategory",
+      "otherEntityRelationshipName": "food",
+      "relationshipName": "foodCategory",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20201121195823",
+  "entityTableName": "food",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": ["foodservice"],
+  "microserviceName": "foodservice"
+}
