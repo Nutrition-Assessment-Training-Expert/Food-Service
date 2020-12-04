@@ -42,7 +42,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://MYSQL5034.site4now.net:3306/db_a6b0db_fooddb?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: a6b0db_fooddb
-    password: ILMDaMmAmB5!
+    password: natehealth123
     hikari:
       poolName: Hikari
       auto-commit: false
