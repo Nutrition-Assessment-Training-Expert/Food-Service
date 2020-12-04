@@ -2,20 +2,34 @@ package com.natehealth.foodservice.service.dto;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.natehealth.foodservice.domain.Food} entity.
  */
 public class FoodDTO implements Serializable {
-    
+
     private Long id;
 
     @Size(max = 255)
     private String description;
 
+    private BrandedFoodDTO brandedFood;
 
-    private Long foodCategoryId;
-    
+    private String foodCategory;
+
+    private Set<FoodNutrientDTO> foodNutrients;
+
+    //private Set<FoodPortionDTO> foodPortions;
+
+    public Set<FoodNutrientDTO> getFoodNutrients() {
+        return foodNutrients;
+    }
+
+    public void setFoodNutrients(Set<FoodNutrientDTO> foodNutrients) {
+        this.foodNutrients = foodNutrients;
+    }
+
     public Long getId() {
         return id;
     }
@@ -32,14 +46,30 @@ public class FoodDTO implements Serializable {
         this.description = description;
     }
 
-    public Long getFoodCategoryId() {
-        return foodCategoryId;
+    public BrandedFoodDTO getBrandedFood() {
+        return brandedFood;
     }
 
-    public void setFoodCategoryId(Long foodCategoryId) {
-        this.foodCategoryId = foodCategoryId;
+    public void setBrandedFood(BrandedFoodDTO brandedFood) {
+        this.brandedFood = brandedFood;
     }
 
+    public String getFoodCategory() {
+        return foodCategory;
+    }
+
+    public void setFoodCategory(String foodCategory) {
+        this.foodCategory = foodCategory;
+    }
+
+    /*public Set<FoodPortionDTO> getFoodPortions() {
+        return foodPortions;
+    }
+
+    public void setFoodPortions(Set<FoodPortionDTO> foodPortions) {
+        this.foodPortions = foodPortions;
+    }
+*/
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -58,12 +88,15 @@ public class FoodDTO implements Serializable {
     }
 
     // prettier-ignore
+
     @Override
     public String toString() {
         return "FoodDTO{" +
-            "id=" + getId() +
-            ", description='" + getDescription() + "'" +
-            ", foodCategoryId=" + getFoodCategoryId() +
-            "}";
+            "id=" + id +
+            ", description='" + description + '\'' +
+            ", brandedFood=" + brandedFood +
+            ", foodCategory='" + foodCategory + '\'' +
+            ", foodNutrients=" + foodNutrients +
+            '}';
     }
 }

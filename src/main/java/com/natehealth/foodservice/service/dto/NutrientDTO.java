@@ -7,7 +7,7 @@ import java.io.Serializable;
  * A DTO for the {@link com.natehealth.foodservice.domain.Nutrient} entity.
  */
 public class NutrientDTO implements Serializable {
-    
+
     private Long id;
 
     @Size(max = 40)
@@ -16,9 +16,9 @@ public class NutrientDTO implements Serializable {
     @Size(max = 6)
     private String unitName;
 
-    private Double rank;
+    //private Double rank;
 
-    
+
     public Long getId() {
         return id;
     }
@@ -43,14 +43,14 @@ public class NutrientDTO implements Serializable {
         this.unitName = unitName;
     }
 
-    public Double getRank() {
+    /*public Double getRank() {
         return rank;
     }
 
     public void setRank(Double rank) {
         this.rank = rank;
     }
-
+*/
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -69,13 +69,13 @@ public class NutrientDTO implements Serializable {
     }
 
     // prettier-ignore
+
     @Override
     public String toString() {
         return "NutrientDTO{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", unitName='" + getUnitName() + "'" +
-            ", rank=" + getRank() +
-            "}";
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", unitName='" + unitName + '\'' +
+            '}';
     }
 }

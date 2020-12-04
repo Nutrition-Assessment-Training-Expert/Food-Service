@@ -6,16 +6,13 @@ import java.io.Serializable;
  * A DTO for the {@link com.natehealth.foodservice.domain.FoodNutrient} entity.
  */
 public class FoodNutrientDTO implements Serializable {
-    
+
     private Long id;
 
     private Double amount;
 
+    private NutrientDTO nutrient;
 
-    private Long nutrientId;
-
-    private Long foodId;
-    
     public Long getId() {
         return id;
     }
@@ -32,20 +29,12 @@ public class FoodNutrientDTO implements Serializable {
         this.amount = amount;
     }
 
-    public Long getNutrientId() {
-        return nutrientId;
+    public NutrientDTO getNutrient() {
+        return nutrient;
     }
 
-    public void setNutrientId(Long nutrientId) {
-        this.nutrientId = nutrientId;
-    }
-
-    public Long getFoodId() {
-        return foodId;
-    }
-
-    public void setFoodId(Long foodId) {
-        this.foodId = foodId;
+    public void setNutrient(NutrientDTO nutrient) {
+        this.nutrient = nutrient;
     }
 
     @Override
@@ -66,13 +55,14 @@ public class FoodNutrientDTO implements Serializable {
     }
 
     // prettier-ignore
+
+
     @Override
     public String toString() {
         return "FoodNutrientDTO{" +
-            "id=" + getId() +
-            ", amount=" + getAmount() +
-            ", nutrientId=" + getNutrientId() +
-            ", foodId=" + getFoodId() +
-            "}";
+            "id=" + id +
+            ", amount=" + amount +
+            ", nutrient=" + nutrient +
+            '}';
     }
 }

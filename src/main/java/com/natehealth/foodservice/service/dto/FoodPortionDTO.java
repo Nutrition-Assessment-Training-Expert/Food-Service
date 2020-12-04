@@ -7,7 +7,7 @@ import java.io.Serializable;
  * A DTO for the {@link com.natehealth.foodservice.domain.FoodPortion} entity.
  */
 public class FoodPortionDTO implements Serializable {
-    
+
     private Long id;
 
     private Double amount;
@@ -20,11 +20,8 @@ public class FoodPortionDTO implements Serializable {
 
     private Double gramWeight;
 
+    private MeasureUnitDTO measureUnit;
 
-    private Long foodId;
-
-    private Long measureUnitId;
-    
     public Long getId() {
         return id;
     }
@@ -65,20 +62,12 @@ public class FoodPortionDTO implements Serializable {
         this.gramWeight = gramWeight;
     }
 
-    public Long getFoodId() {
-        return foodId;
+    public MeasureUnitDTO getMeasureUnit() {
+        return measureUnit;
     }
 
-    public void setFoodId(Long foodId) {
-        this.foodId = foodId;
-    }
-
-    public Long getMeasureUnitId() {
-        return measureUnitId;
-    }
-
-    public void setMeasureUnitId(Long measureUnitId) {
-        this.measureUnitId = measureUnitId;
+    public void setMeasureUnit(MeasureUnitDTO measureUnit) {
+        this.measureUnit = measureUnit;
     }
 
     @Override
@@ -99,16 +88,16 @@ public class FoodPortionDTO implements Serializable {
     }
 
     // prettier-ignore
+
     @Override
     public String toString() {
         return "FoodPortionDTO{" +
-            "id=" + getId() +
-            ", amount=" + getAmount() +
-            ", portionDescription='" + getPortionDescription() + "'" +
-            ", modifier='" + getModifier() + "'" +
-            ", gramWeight=" + getGramWeight() +
-            ", foodId=" + getFoodId() +
-            ", measureUnitId=" + getMeasureUnitId() +
-            "}";
+            "id=" + id +
+            ", amount=" + amount +
+            ", portionDescription='" + portionDescription + '\'' +
+            ", modifier='" + modifier + '\'' +
+            ", gramWeight=" + gramWeight +
+            ", measureUnitId=" + measureUnit +
+            '}';
     }
 }

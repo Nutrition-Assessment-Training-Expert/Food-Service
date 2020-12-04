@@ -12,12 +12,10 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {NutrientMapper.class, FoodMapper.class})
 public interface FoodNutrientMapper extends EntityMapper<FoodNutrientDTO, FoodNutrient> {
 
-    @Mapping(source = "nutrient.id", target = "nutrientId")
-    @Mapping(source = "food.id", target = "foodId")
+    @Mapping(source = "nutrient", target = "nutrient")
     FoodNutrientDTO toDto(FoodNutrient foodNutrient);
 
-    @Mapping(source = "nutrientId", target = "nutrient")
-    @Mapping(source = "foodId", target = "food")
+    @Mapping(source = "nutrient", target = "nutrient")
     FoodNutrient toEntity(FoodNutrientDTO foodNutrientDTO);
 
     default FoodNutrient fromId(Long id) {

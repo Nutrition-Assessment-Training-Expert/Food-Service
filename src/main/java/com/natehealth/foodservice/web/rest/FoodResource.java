@@ -1,6 +1,8 @@
 package com.natehealth.foodservice.web.rest;
 
 import com.natehealth.foodservice.service.FoodService;
+import com.natehealth.foodservice.service.dto.AutoCompleteDTO;
+import com.natehealth.foodservice.service.dto.FoodWeight;
 import com.natehealth.foodservice.web.rest.errors.BadRequestAlertException;
 import com.natehealth.foodservice.service.dto.FoodDTO;
 
@@ -40,57 +42,12 @@ public class FoodResource {
     }
 
     /**
-     * {@code POST  /foods} : Create a new food.
-     *
-     * @param foodDTO the foodDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new foodDTO, or with status {@code 400 (Bad Request)} if the food has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PostMapping("/foods")
-    public ResponseEntity<FoodDTO> createFood(@Valid @RequestBody FoodDTO foodDTO) throws URISyntaxException {
-        log.debug("REST request to save Food : {}", foodDTO);
-        if (foodDTO.getId() != null) {
-            throw new BadRequestAlertException("A new food cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        FoodDTO result = foodService.save(foodDTO);
-        return ResponseEntity.created(new URI("/api/foods/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
-    }
-
-    /**
-     * {@code PUT  /foods} : Updates an existing food.
-     *
-     * @param foodDTO the foodDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated foodDTO,
-     * or with status {@code 400 (Bad Request)} if the foodDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the foodDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PutMapping("/foods")
-    public ResponseEntity<FoodDTO> updateFood(@Valid @RequestBody FoodDTO foodDTO) throws URISyntaxException {
-        log.debug("REST request to update Food : {}", foodDTO);
-        if (foodDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        FoodDTO result = foodService.save(foodDTO);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, foodDTO.getId().toString()))
-            .body(result);
-    }
-
-    /**
      * {@code GET  /foods} : get all the foods.
      *
-     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of foods in body.
      */
     @GetMapping("/foods")
-    public List<FoodDTO> getAllFoods(@RequestParam(required = false) String filter) {
-        if ("brandedfood-is-null".equals(filter)) {
-            log.debug("REST request to get all Foods where brandedFood is null");
-            return foodService.findAllWhereBrandedFoodIsNull();
-        }
+    public List<FoodDTO> getAllFoods() {
         log.debug("REST request to get all Foods");
         return foodService.findAll();
     }
@@ -108,16 +65,26 @@ public class FoodResource {
         return ResponseUtil.wrapOrNotFound(foodDTO);
     }
 
-    /**
-     * {@code DELETE  /foods/:id} : delete the "id" food.
-     *
-     * @param id the id of the foodDTO to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-     */
-    @DeleteMapping("/foods/{id}")
-    public ResponseEntity<Void> deleteFood(@PathVariable Long id) {
-        log.debug("REST request to delete Food : {}", id);
-        foodService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+    @GetMapping("/foods/upc/{upc}")
+    public ResponseEntity<FoodDTO> getFoodByUpc(@PathVariable String upc) {
+        log.debug("REST request to get Food : {}", upc);
+        Optional<FoodDTO> foodDTO = foodService.findByUpc(upc);
+        return ResponseUtil.wrapOrNotFound(foodDTO);
+    }
+
+    @GetMapping("/foods/search/{search}")
+    public List<AutoCompleteDTO> getFoodBySearch(@PathVariable String search) {
+        log.debug("REST request to get all Foods");
+        return foodService.findByWord(search);
+    }
+
+    @PostMapping("/foods")
+    public List<FoodDTO> getFoodByIds(@Valid @RequestBody List<Long> ids) {
+        return foodService.findAllByIds(ids);
+    }
+
+    @PostMapping("/food")
+    public ResponseEntity<FoodDTO> getFoodByIdAndWeight(@Valid @RequestBody FoodWeight foodWeight) {
+        return ResponseUtil.wrapOrNotFound(foodService.findByIdAndWeight(foodWeight));
     }
 }

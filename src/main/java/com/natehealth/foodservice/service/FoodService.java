@@ -2,7 +2,10 @@ package com.natehealth.foodservice.service;
 
 import com.natehealth.foodservice.domain.Food;
 import com.natehealth.foodservice.repository.FoodRepository;
+import com.natehealth.foodservice.service.dto.AutoCompleteDTO;
 import com.natehealth.foodservice.service.dto.FoodDTO;
+import com.natehealth.foodservice.service.dto.FoodWeight;
+import com.natehealth.foodservice.service.dto.NutrientResponse;
 import com.natehealth.foodservice.service.mapper.FoodMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -60,20 +64,33 @@ public class FoodService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
-
+    /**
+     * Get all the foods.
+     *
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<FoodDTO> findAllByIds(List<Long> ids) {
+        log.debug("Request to get all Foods");
+        return ids.stream()
+            .map(foodRepository::findById)
+            .map(op -> op.map(foodMapper::toDto).orElse(null))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
 
     /**
-     *  Get all the foods where BrandedFood is {@code null}.
-     *  @return the list of entities.
+     * Get all the foods.
+     *
+     * @return the list of entities.
      */
-    @Transactional(readOnly = true) 
-    public List<FoodDTO> findAllWhereBrandedFoodIsNull() {
-        log.debug("Request to get all foods where BrandedFood is null");
-        return StreamSupport
-            .stream(foodRepository.findAll().spliterator(), false)
-            .filter(food -> food.getBrandedFood() == null)
+    @Transactional(readOnly = true)
+    public List<AutoCompleteDTO> findByWord(String search) {
+        log.debug("Request to get all Foods");
+        return foodRepository.findFirst10ByDescriptionStartingWith(search);/*.stream()
             .map(foodMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+            .collect(Collectors.toCollection(LinkedList::new));*/
+        //return foodRepository.findByName(search);
     }
 
     /**
@@ -88,14 +105,40 @@ public class FoodService {
         return foodRepository.findById(id)
             .map(foodMapper::toDto);
     }
+    /**
+     * Get one food by upc.
+     *
+     * @param upc the upc of the entity.
+     * @return the entity.
+     */
+    @Transactional(readOnly = true)
+    public Optional<FoodDTO> findByUpc(String upc) {
+        log.debug("Request to get Food : {}", upc);
+        return foodRepository.findByBrandedFood_GtinUpc(upc)
+            .map(foodMapper::toDto);
+    }
 
     /**
-     * Delete the food by id.
+     * Get one food by upc.
      *
-     * @param id the id of the entity.
+     * @param FoodWeight the foodWeight of the entity.
+     * @return the entity.
      */
-    public void delete(Long id) {
-        log.debug("Request to delete Food : {}", id);
-        foodRepository.deleteById(id);
+    @Transactional(readOnly = true)
+    public Optional<FoodDTO> findByIdAndWeight(FoodWeight foodWeight) {
+        log.debug("Request to get Food : {}", foodWeight);
+        Optional<FoodDTO> foodDto = foodRepository.findById(foodWeight.getId())
+            .map(foodMapper::toDto);
+        foodDto.ifPresent(food ->
+            food.getFoodNutrients()
+                .stream()
+                /*.map(dto ->
+                    new NutrientResponse(dto.getNutrient().getId(),
+                        dto.getNutrient().getName(),
+                        dto.getNutrient().getUnitName(),dto.getAmount())
+                )*/
+                .forEach(n -> n.setAmount((foodWeight.getGrams()*n.getAmount())/100))
+        );
+        return foodDto;
     }
 }

@@ -3,6 +3,7 @@ package com.natehealth.foodservice.service;
 import com.natehealth.foodservice.domain.FoodPortion;
 import com.natehealth.foodservice.repository.FoodPortionRepository;
 import com.natehealth.foodservice.service.dto.FoodPortionDTO;
+import com.natehealth.foodservice.service.dto.UnitDTO;
 import com.natehealth.foodservice.service.mapper.FoodPortionMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,19 +35,6 @@ public class FoodPortionService {
     }
 
     /**
-     * Save a foodPortion.
-     *
-     * @param foodPortionDTO the entity to save.
-     * @return the persisted entity.
-     */
-    public FoodPortionDTO save(FoodPortionDTO foodPortionDTO) {
-        log.debug("Request to save FoodPortion : {}", foodPortionDTO);
-        FoodPortion foodPortion = foodPortionMapper.toEntity(foodPortionDTO);
-        foodPortion = foodPortionRepository.save(foodPortion);
-        return foodPortionMapper.toDto(foodPortion);
-    }
-
-    /**
      * Get all the foodPortions.
      *
      * @return the list of entities.
@@ -61,6 +49,26 @@ public class FoodPortionService {
 
 
     /**
+     * Get all the foodPortions.
+     *
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<UnitDTO> findByFoodId(Long id) {
+        log.debug("Request to get all FoodPortions");
+        return foodPortionRepository.findDistinctByFood_Id(id).stream()
+            .map(foodPortionMapper::toDto)
+            .map(dto -> {
+                UnitDTO measureUnit = new UnitDTO();
+                measureUnit.setId(dto.getId());
+                measureUnit.setName(dto.getMeasureUnit().getId() == 9999? dto.getModifier(): dto.getMeasureUnit().getName());
+                measureUnit.setGrams(dto.getGramWeight()/dto.getAmount());
+                return measureUnit;
+            })
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    /**
      * Get one foodPortion by id.
      *
      * @param id the id of the entity.
@@ -71,15 +79,5 @@ public class FoodPortionService {
         log.debug("Request to get FoodPortion : {}", id);
         return foodPortionRepository.findById(id)
             .map(foodPortionMapper::toDto);
-    }
-
-    /**
-     * Delete the foodPortion by id.
-     *
-     * @param id the id of the entity.
-     */
-    public void delete(Long id) {
-        log.debug("Request to delete FoodPortion : {}", id);
-        foodPortionRepository.deleteById(id);
     }
 }

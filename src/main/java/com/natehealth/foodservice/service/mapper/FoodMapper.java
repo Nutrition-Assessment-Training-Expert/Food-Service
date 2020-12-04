@@ -12,15 +12,16 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {FoodCategoryMapper.class})
 public interface FoodMapper extends EntityMapper<FoodDTO, Food> {
 
-    @Mapping(source = "foodCategory.id", target = "foodCategoryId")
+    @Mapping(source = "brandedFood", target = "brandedFood")
+    @Mapping(source = "foodCategory.description", target = "foodCategory")
+    @Mapping(source = "foodNutrients", target = "foodNutrients")
     FoodDTO toDto(Food food);
 
-    @Mapping(target = "foodPoritons", ignore = true)
+    @Mapping(source = "brandedFood", target = "brandedFood")
     @Mapping(target = "removeFoodPoriton", ignore = true)
-    @Mapping(target = "foodNutrients", ignore = true)
     @Mapping(target = "removeFoodNutrient", ignore = true)
-    @Mapping(target = "brandedFood", ignore = true)
-    @Mapping(source = "foodCategoryId", target = "foodCategory")
+    @Mapping(source = "foodCategory", target = "foodCategory")
+    @Mapping(source = "foodNutrients", target = "foodNutrients")
     Food toEntity(FoodDTO foodDTO);
 
     default Food fromId(Long id) {
